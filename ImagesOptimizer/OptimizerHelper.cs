@@ -66,7 +66,7 @@ namespace ImagesOptmizer
                         double aspectRatio = img.Height / (double)img.Width;
                         int height = (int)Math.Ceiling(img.Height * scale);
 
-                        if (width < img.Width && height < img.Height)
+                        if (width <= img.Width && height <= img.Height)
                         {
                             await ResizeImage(img, flag, compressionQuality, fi.Length, scale, width, dst, extension, useWebp, useJpeg);
                         }
