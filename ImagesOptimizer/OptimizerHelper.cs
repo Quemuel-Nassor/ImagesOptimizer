@@ -63,10 +63,12 @@ namespace ImagesOptmizer
                     {
                         width = imgWidth != default ? (int)imgWidth : size;
                         double scale = width / (double)img.Width;
-                        double aspectRatio = img.Height / (double)img.Width;
-                        int height = (int)Math.Ceiling(img.Height * scale);
+                        //double aspectRatio = img.Height / (double)img.Width;
+                        //int height = (int)Math.Ceiling(img.Height * scale);
 
-                        if (width <= img.Width && height <= img.Height)
+
+
+                        if (width <= img.Width)
                         {
                             await ResizeImage(img, flag, compressionQuality, fi.Length, scale, width, dst, extension, useWebp, useJpeg);
                         }
@@ -93,10 +95,16 @@ namespace ImagesOptmizer
 
                 using (Image<Bgra, byte> imgResized = img.Resize(scale, Inter.Area))
                 {
+                    if (flag != ImwriteFlags.PngCompression && (ImageSizes)width < ImageSizes.Laptop)
+                        compressionQuality = 85;
+
                     bool success = CvInvoke.Imwrite(Path.Combine(dst, $"{width}w{extension}"), imgResized, new KeyValuePair<ImwriteFlags, int>(flag, compressionQuality));
                     LogInfo(success, fileSize, width, dst, extension);
 
-                    if (useJpeg && !extension.Equals(".jpeg") && !extension.ToLower().Equals(".jpg"))
+                    if ((ImageSizes)width < ImageSizes.Laptop)
+                        compressionQuality = 85;
+
+                    if (useJpeg && !extension.Equals(".jpeg") && !extension.Equals(".jpg"))
                     {
                         extension = ".jpg";
                         success = CvInvoke.Imwrite(Path.Combine(dst, $"{width}w{extension}"), imgResized, new KeyValuePair<ImwriteFlags, int>(ImwriteFlags.JpegQuality, compressionQuality));
