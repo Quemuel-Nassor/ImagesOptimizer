@@ -6,7 +6,7 @@
 
 ## About
 
-This tool is a weather utility to resize and optimize images size based on boostrap screen breaktpoints, its purpose is to speed up image optimization for websites 
+This tool is a cli utility to resize and optimize images size based on boostrap screen breakpoints, its purpose is to speed up image optimization for websites 
 
 ## Download
 
